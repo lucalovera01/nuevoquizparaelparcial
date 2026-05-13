@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 4: Integración de Conceptos - UNQ</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --unq-blue: #3498db;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --light-bg: #fdfefe;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #ecf0f1;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-card {
+            background: white;
+            max-width: 750px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--unq-blue);
+            padding-bottom: 20px;
+        }
+
+        h1 { color: var(--primary); margin: 0; font-size: 26px; }
+        p.subtitle { color: #7f8c8d; margin-top: 10px; font-weight: 500; }
+
+        .question-wrap {
+            margin-bottom: 35px;
+            padding: 20px;
+            background: var(--light-bg);
+            border: 1px solid #eee;
+            border-radius: 10px;
+        }
+
+        .question-text {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: block;
+            line-height: 1.4;
+        }
+
+        .btn-option {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            font-size: 15px;
+            line-height: 1.5;
+            transition: all 0.2s ease;
+        }
+
+        .btn-option:hover {
+            border-color: var(--unq-blue);
+            background: #f0faff;
+        }
+
+        .btn-option.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success) !important;
+            color: #155724;
+        }
+
+        .btn-option.incorrect {
+            background-color: #f8d7da !important;
+            border-color: var(--error) !important;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f1f8ff;
+            border-left: 5px solid var(--unq-blue);
+            display: none;
+            font-size: 14px;
+            color: #34495e;
+            animation: fadeIn 0.4s;
+        }
+
+        .cite {
+            display: block;
+            margin-top: 10px;
+            font-style: italic;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .footer-nav {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: var(--unq-blue);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-card">
+    <header>
+        <h1>Cuestionario de Integración</h1>
+        <p class="subtitle">Ejes transversales: Clases 1 a 5</p>
+    </header>
+
+    <div class="question-wrap">
+        <span class="question-text">1. (Eje Clase 4/5) Explique qué fue la música concreta, sus técnicas y sus diferencias/similitudes con la música electrónica de Colonia.</span>
+        <button class="btn-option" onclick="check(this, true)">
+            <strong>Opción A:</strong> La música concreta (París) se basaba en la manipulación de sonidos grabados de la realidad (objetos sonoros), mientras que la electrónica (Colonia) generaba sonidos puramente sintéticos mediante osciladores. Ambas compartían el uso de la tecnología para liberar al sonido de su función tradicional.
+        </button>
+        <button class="btn-option" onclick="check(this, false)">
+            <strong>Opción B:</strong> La música concreta utilizaba instrumentos tradicionales grabados en cinta para preservarlos, mientras que la electrónica era música tocada en vivo con sintetizadores digitales. La diferencia principal era el uso de la partitura tradicional.
+        </button>
+        <div class="explanation">
+            La música concreta de Schaeffer trabajaba con el "arte de las tijeras" (montaje de cintas), mientras que Eimert y Stockhausen en Colonia rechazaban la "sustancia de este mundo caído" y preferían el control total de la síntesis electrónica.
+            <span class="cite">"El surco cerrado le permitió a Schaeffer vislumbrar un nuevo modo de crear u obtener música, más allá de la ortodoxia narrativa" (Stubbs, 2019).</span>
+        </div>
+    </div>
+
+    <div class="question-wrap">
+        <span class="question-text">2. (Eje Clase 1/2) ¿Cómo se relaciona la crítica de Adorno a los medios masivos con la noción de "autenticidad" en tecnologías modernas como el Auto-Tune?</span>
+        <button class="btn-option" onclick="check(this, true)">
+            <strong>Opción A:</strong> Adorno veía en los medios una "industria cultural" que estandarizaba el gusto. Esta visión resuena hoy en la irritación que causa el Auto-Tune, ya que se percibe como una "estandarización" tecnológica que rompe la ilusión de honestidad de la voz natural.
+        </button>
+        <button class="btn-option" onclick="check(this, false)">
+            <strong>Opción B:</strong> Adorno defendía el uso de cualquier tecnología que facilitara la democratización de la música, por lo que vería al Auto-Tune como una herramienta de liberación para los artistas sin formación académica.
+        </button>
+        <div class="explanation">
+            La tecnología no es neutral; según Lahiteau, la voz es la medida de la honestidad, y su alteración tecnológica (como en la industria cultural que describía Adorno) genera una crisis en el pacto de veracidad del artista.
+            <span class="cite">"La voz y cómo es utilizada se vuelve la medida de la honestidad de alguien... el hecho de filtrar la voz parece suscitar una especial irritación" (Lahiteau, 2020).</span>
+        </div>
+    </div>
+
+    <div class="question-wrap">
+        <span class="question-text">3. (Eje Clase 3/4) ¿Qué conexión existe entre el Manifiesto Futurista de Russolo y el nacimiento de la fonografía a fines del siglo XIX?</span>
+        <button class="btn-option" onclick="check(this, false)">
+            <strong>Opción A:</strong> Russolo creía que la fonografía era un peligro para la música porque el ruido de las máquinas de grabación impedía escuchar la pureza de los instrumentos musicales clásicos.
+        </button>
+        <button class="btn-option" onclick="check(this, true)">
+            <strong>Opción B:</strong> La invención del fonógrafo en el "largo siglo XX" (Ochoa Gautier) permitió capturar los ruidos del entorno industrial, lo que validó la propuesta de Russolo de conquistar la variedad infinita de los "sonidos-ruidos" como material artístico.
+        </button>
+        <div class="explanation">
+            La captura del sonido permitió que el ruido dejara de ser una interferencia para convertirse en material compositivo, rompiendo el círculo de los sonidos puros de la orquesta.
+            <span class="cite">"Debemos romper este círculo restringido de sonidos puros y conquistar la variedad infinita de los sonidos-ruidos" (Russolo, 1913).</span>
+        </div>
+    </div>
+
+    <div class="question-wrap">
+        <span class="question-text">4. (Eje Clase 1/5) ¿Cómo influyó el contexto institucional (Radios y Guerra Fría) en la evolución de las vanguardias musicales según Alex Ross?</span>
+        <button class="btn-option" onclick="check(this, true)">
+            <strong>Opción A:</strong> Las instituciones como la Radio Francesa o la WDR de Colonia funcionaron como centros de poder donde la experimentación sonora se convirtió en "pasto para ideólogos", financiando vanguardias que servían como símbolo de libertad intelectual frente al bloque soviético.
+        </button>
+        <button class="btn-option" onclick="check(this, false)">
+            <strong>Opción B:</strong> El contexto de la Guerra Fría obligó a los compositores de vanguardia a abandonar la tecnología electrónica y volver a formas tradicionales para asegurar que el mensaje político de sus obras fuera comprendido por las masas.
+        </button>
+        <div class="explanation">
+            Ross explica cómo la vanguardia de los años cincuenta no fue solo un movimiento artístico, sino que estuvo profundamente entrelazada con la mística y la política de la posguerra.
+            <span class="cite">"Ideas grandiosas... acaban siendo pasto para una lucha de poder entre ideólogos y pedantes" (Ross, 2009).</span>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <a href="index.html" class="btn-back">← Volver al Panel de Estudios</a>
+    </div>
+</div>
+
+<script>
+    function check(btn, isCorrect) {
+        const parent = btn.parentElement;
+        const options = parent.querySelectorAll('.btn-option');
+        const explanation = parent.querySelector('.explanation');
+
+        options.forEach(opt => opt.style.pointerEvents = 'none');
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('incorrect');
+            options.forEach(opt => {
+                if(opt !== btn) opt.classList.add('correct'); // Muestra la correcta
+            });
+        }
+        
+        explanation.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
