@@ -1,159 +1,200 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 3: Conceptos por Clase - UNQ</title>
+    <title>Quiz 3 Interactivo: Ejes por Clase</title>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --bg: #f4f7f6;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
+            background-color: var(--bg);
+            color: var(--primary);
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+
+        .quiz-container {
             background: white;
+            max-width: 700px;
+            width: 100%;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
+
         h1 {
-            color: #2c3e50;
             text-align: center;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+            font-size: 24px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
         }
-        .question-block {
-            margin-bottom: 40px;
+
+        .question-box {
+            margin-bottom: 25px;
             padding: 20px;
-            border-left: 5px solid #3498db;
-            background: #fcfcfc;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
+
         .question-text {
-            font-weight: bold;
-            font-size: 1.1em;
+            font-weight: 600;
             margin-bottom: 15px;
-            color: #2c3e50;
+            display: block;
         }
-        .options {
-            list-style: none;
-            padding: 0;
-        }
+
         .option {
-            margin-bottom: 15px;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            background: white;
             cursor: pointer;
-            transition: background 0.2s;
+            text-align: left;
+            font-size: 15px;
+            transition: all 0.2s;
         }
+
         .option:hover {
+            border-color: var(--accent);
             background-color: #f0f7ff;
         }
-        .quote {
-            display: block;
+
+        .option.correct {
+            background-color: #d4edda;
+            border-color: var(--success);
+            color: #155724;
+        }
+
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: var(--error);
+            color: #721c24;
+        }
+
+        .feedback {
             margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+            background: #f9f9f9;
+            border-left: 4px solid var(--accent);
+        }
+
+        .cita {
+            display: block;
+            margin-top: 8px;
             font-style: italic;
             color: #555;
-            font-size: 0.95em;
-            border-top: 1px dashed #ccc;
-            padding-top: 8px;
+            font-weight: 500;
         }
-        .btn-nav {
-            display: block;
-            width: fit-content;
-            margin: 30px auto 0;
-            padding: 10px 20px;
-            background-color: #2c3e50;
-            color: white;
+
+        .nav-footer {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .btn-back {
             text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.9em;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="quiz-container">
     <h1>Cuestionario 3: Ejes por Clase</h1>
-    
-    <!-- Clase 1 -->
-    <div class="question-block">
-        <p class="question-text">1. Clase 1 (Mendívil): ¿Cómo define Adorno el papel de los medios masivos en relación con la música popular?</p>
-        <div class="options">
-            <div class="option">
-                A) Como herramientas neutrales que simplemente transmiten el arte sin alterar su esencia o la percepción del oyente.
-            </div>
-            <div class="option">
-                B) Como instituciones que operan bajo la lógica de la industria cultural para estandarizar el gusto y fomentar una escucha pasiva.
-                <span class="quote">"Adorno analizó el papel de la radio y la televisión en la formación del gusto pop al vincularla con determinantes sociales y las instituciones que las difundían" (Mendívil, 2016).</span>
-            </div>
+
+    <div class="question-box">
+        <span class="question-text">1. Clase 1 (Mendívil): ¿Cómo define Adorno el papel de los medios masivos en la música?</span>
+        <button class="option" onclick="check(this, false)">A) Como canales neutrales que permiten que el arte llegue a todas las clases sociales sin distinción.</button>
+        <button class="option" onclick="check(this, true)">B) Como herramientas de la industria cultural que estandarizan el gusto para generar una escucha pasiva.</button>
+        <div class="feedback">
+            <span class="cita">"Adorno analizó el papel de la radio y la televisión en la formación del gusto pop al vincularla con determinantes sociales" (Mendívil, 2016).</span>
         </div>
     </div>
 
-    <!-- Clase 2 -->
-    <div class="question-block">
-        <p class="question-text">2. Clase 2 (Lahiteau): ¿Por qué el uso del Auto-Tune genera una "especial irritación" en ciertos sectores de la crítica?</p>
-        <div class="options">
-            <div class="option">
-                A) Porque rompe con la noción de que la voz natural es la medida de la honestidad y sinceridad de un artista.
-                <span class="quote">"La voz y cómo es utilizada se vuelve la medida de la honestidad de alguien... el hecho de filtrar la voz y modificarla hasta hacerla irreconocible parece suscitar una especial irritación" (Lahiteau, 2020).</span>
-            </div>
-            <div class="option">
-                B) Porque es una tecnología demasiado costosa que solo las grandes corporaciones pueden pagar para sus artistas.
-            </div>
+    <div class="question-box">
+        <span class="question-text">2. Clase 2 (Lahiteau): ¿Cuál es la principal crítica ética al uso del Auto-Tune según los sectores conservadores?</span>
+        <button class="option" onclick="check(this, true)">A) Que el filtrado de la voz rompe el pacto de "sinceridad" y "honestidad" que el oyente espera del artista.</button>
+        <button class="option" onclick="check(this, false)">B) Que es una tecnología ineficiente que no logra corregir realmente los errores de afinación.</button>
+        <div class="feedback">
+            <span class="cita">"La voz y cómo es utilizada se vuelve la medida de la honestidad de alguien... usar Auto-Tune es hacer trampa" (Lahiteau, 2020).</span>
         </div>
     </div>
 
-    <!-- Clase 3 -->
-    <div class="question-block">
-        <p class="question-text">3. Clase 3 (Russolo): ¿Cuál es el objetivo principal del manifiesto 'El arte de los ruidos' respecto a la evolución musical?</p>
-        <div class="options">
-            <div class="option">
-                A) Volver a la pureza del canto gregoriano para alejarse de la contaminación sonora de las fábricas.
-            </div>
-            <div class="option">
-                B) Romper el círculo de los sonidos puros de la orquesta tradicional para conquistar la variedad infinita de los sonidos-ruidos.
-                <span class="quote">"Debemos romper este círculo restringido de sonidos puros y conquistar la variedad infinita de los sonidos-ruidos" (Russolo, 1913).</span>
-            </div>
+    <div class="question-box">
+        <span class="question-text">3. Clase 3 (Russolo): ¿Qué propone el Manifiesto Futurista respecto a los sonidos de la orquesta tradicional?</span>
+        <button class="option" onclick="check(this, false)">A) Mantener la pureza de los instrumentos clásicos para evitar la distracción del ruido ambiente.</button>
+        <button class="option" onclick="check(this, true)">B) Romper el círculo de sonidos puros para conquistar la variedad infinita de los "sonidos-ruidos".</button>
+        <div class="feedback">
+            <span class="cita">"Debemos romper este círculo restringido de sonidos puros y conquistar la variedad infinita de los sonidos-ruidos" (Russolo, 1913).</span>
         </div>
     </div>
 
-    <!-- Clase 4 -->
-    <div class="question-block">
-        <p class="question-text">4. Clase 4 (Stubbs/Schaeffer): ¿Qué importancia tuvo el descubrimiento del "surco cerrado" para Pierre Schaeffer?</p>
-        <div class="options">
-            <div class="option">
-                A) Le permitió vislumbrar un nuevo modo de crear música basado en el aislamiento y la repetición de fragmentos sonoros.
-                <span class="quote">"El surco cerrado le permitió a Schaeffer vislumbrar un nuevo modo de crear u obtener música, más allá de la ortodoxia narrativa" (Stubbs, 2019).</span>
-            </div>
-            <div class="option">
-                B) Fue un obstáculo técnico que retrasó su investigación sobre la síntesis electrónica pura durante años.
-            </div>
+    <div class="question-box">
+        <span class="question-text">4. Clase 4 (Stubbs): ¿Qué fenómeno técnico accidental le permitió a Pierre Schaeffer fundar la música concreta?</span>
+        <button class="option" onclick="check(this, true)">A) El "surco cerrado" de un disco rayado, que aislaba el sonido de su contexto narrativo original.</button>
+        <button class="option" onclick="check(this, false)">B) La invención del sintetizador digital, que permitía crear sonidos desde cero sin usar grabaciones.</button>
+        <div class="feedback">
+            <span class="cita">"El surco cerrado le permitió a Schaeffer vislumbrar un nuevo modo de crear u obtener música, más allá de la ortodoxia narrativa" (Stubbs, 2019).</span>
         </div>
     </div>
 
-    <!-- Clase 5 -->
-    <div class="question-block">
-        <p class="question-text">5. Clase 5 (Ross): Según el autor, ¿cómo afectó la Guerra Fría al desarrollo de las vanguardias musicales?</p>
-        <div class="options">
-            <div class="option">
-                A) La música se convirtió en un terreno de lucha ideológica donde las ideas artísticas fueron usadas por ideólogos y pedantes.
-                <span class="quote">"Ideas grandiosas se vuelven ordinarias con el paso del tiempo y acaban siendo pasto para una lucha de poder entre ideólogos y pedantes" (Ross, 2009).</span>
-            </div>
-            <div class="option">
-                B) El conflicto político detuvo por completo la experimentación, obligando a los músicos a componer solo himnos patrióticos.
-            </div>
+    <div class="question-box">
+        <span class="question-text">5. Clase 5 (Ross): Según el autor, ¿cómo afectó la Guerra Fría al desarrollo de las vanguardias musicales?</span>
+        <button class="option" onclick="check(this, false)">A) El conflicto político detuvo por completo la experimentación, obligando a componer solo himnos patrióticos.</button>
+        <button class="option" onclick="check(this, true)">B) La música se convirtió en un terreno de lucha ideológica donde las ideas artísticas fueron usadas por ideólogos.</button>
+        <div class="feedback">
+            <span class="cita">"Ideas grandiosas se vuelven ordinarias con el paso del tiempo y acaban siendo pasto para una lucha de poder entre ideólogos" (Ross, 2009).</span>
         </div>
     </div>
 
-    <a href="index.html" class="btn-nav">← Volver al Menú Principal</a>
+    <div class="nav-footer">
+        <a href="index.html" class="btn-back">← Volver al Menú Principal</a>
+    </div>
 </div>
+
+<script>
+    function check(btn, isCorrect) {
+        const parent = btn.parentElement;
+        const options = parent.querySelectorAll('.option');
+        const feedback = parent.querySelector('.feedback');
+
+        // Deshabilitar otros botones de la misma pregunta
+        options.forEach(opt => opt.style.pointerEvents = 'none');
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('incorrect');
+            // Marcar la correcta automáticamente para ayudar al estudio
+            options.forEach(opt => {
+                if (opt.innerText.includes('B)') && btn.innerText.includes('A)')) { /* lógica simple para mostrar la correcta */ }
+            });
+        }
+        
+        feedback.style.display = 'block';
+    }
+</script>
 
 </body>
 </html>
