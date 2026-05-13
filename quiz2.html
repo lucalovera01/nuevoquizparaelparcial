@@ -1,109 +1,320 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repaso UNQ - Nivel Experto</title>
+    <title>Quiz 4: Integración Escalonada</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; color: #2c3e50; }
-        .container { max-width: 700px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #2980b9; margin-bottom: 5px; }
-        p.subtitle { text-align: center; font-style: italic; color: #7f8c8d; margin-bottom: 25px; }
-        .nav-menu { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
-        .nav-menu button { background: #ecf0f1; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #34495e; transition: 0.3s; }
-        .nav-menu button:hover { background: #bdc3c7; }
-        .nav-menu button.active { background: #2980b9; color: #fff; }
-        .question-box { margin-top: 20px; }
-        .question-text { font-size: 18px; font-weight: bold; margin-bottom: 20px; line-height: 1.4; }
-        .option-btn { display: block; width: 100%; text-align: left; padding: 15px; margin-bottom: 12px; border: 2px solid #ecf0f1; border-radius: 10px; background: #fff; cursor: pointer; transition: 0.2s; font-size: 15px; line-height: 1.5; }
-        .option-btn:hover { background: #f9f9f9; border-color: #bdc3c7; }
-        .option-btn.correct { background-color: #d4edda; border-color: #28a745; color: #155724; font-weight: 600; }
-        .option-btn.incorrect { background-color: #f8d7da; border-color: #dc3545; color: #721c24; }
-        .feedback { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; font-size: 14px; background: #e8f4fd; border-left: 5px solid #2980b9; }
-        .footer-nav { display: flex; justify-content: space-between; margin-top: 30px; }
-        .footer-nav button { padding: 10px 20px; border: none; border-radius: 5px; background: #34495e; color: white; cursor: pointer; }
-        .footer-nav button:disabled { opacity: 0.3; cursor: not-allowed; }
-        .progress-bar { text-align: center; margin-top: 15px; font-size: 12px; color: #95a5a6; }
+        :root {
+            --primary: #2c3e50;
+            --accent: #e67e22;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --bg: #f4f4f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 30px;
+        }
+
+        .level-tag {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .easy { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        .complex { background: #f8d7da; color: #721c24; }
+
+        .question-block {
+            margin-bottom: 40px;
+            padding: 15px;
+            border-left: 5px solid #eee;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.3s;
+        }
+
+        .option:hover { background: #f9f9f9; border-color: var(--accent); }
+        .option.correct { background: #d4edda; border-color: var(--success); }
+        .option.incorrect { background: #f8d7da; border-color: var(--error); }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            display: none;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .cite {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .nav-footer { text-align: center; margin-top: 40px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🎓 Parcial UNQ</h1>
-    <p class="subtitle">Cuestionario con citas bibliográficas - 2 Opciones</p>
-    
-    <div class="nav-menu" id="class-menu">
-        <button onclick="changeClass(1)" id="btn-1" class="active">Clase 1</button>
-        <button onclick="changeClass(2)" id="btn-2">Clase 2</button>
-        <button onclick="changeClass(3)" id="btn-3">Clase 3</button>
-        <button onclick="changeClass(4)" id="btn-4">Clase 4</button>
-        <button onclick="changeClass(5)" id="btn-5">Clase 5</button>
-    </div>
+    <header>
+        <h1>Cuestionario 4: Nivelación e Integración</h1>
+        <p>De lo Analógico a la Vanguardia de Posguerra</p>
+    </header>
 
-    <div id="quiz-content"></div>
+    <div id="quiz-root"></div>
 
-    <div class="footer-nav">
-        <button id="prev-btn" onclick="moveQuestion(-1)">Anterior</button>
-        <button id="next-btn" onclick="moveQuestion(1)">Siguiente</button>
+    <div class="nav-footer">
+        <a href="index.html" style="color: var(--accent); font-weight: bold; text-decoration: none;">← Volver al Menú</a>
     </div>
-    <div class="progress-bar" id="progress-text">Pregunta 1 de 5</div>
 </div>
 
 <script>
-    const data = [{"class": 1, "q": "\u00bfC\u00f3mo influye el soporte f\u00edsico en la estructura compositiva seg\u00fan David Byrne?", "options": ["La tecnolog\u00eda anal\u00f3gica no solo registra el sonido, sino que dicta la forma de la obra; como se\u00f1ala el autor: 'la tecnolog\u00eda que hay detr\u00e1s de esas innovaciones ha cambiado la naturaleza de lo que se crea'.", "El soporte es un contenedor pasivo que no afecta la creaci\u00f3n art\u00edstica, funcionando \u00fanicamente como un 'recuerdo de lo que hab\u00edas escuchado y sentido' sin alterar la composici\u00f3n."], "correct": 0, "rationale": "Byrne sostiene que las limitaciones t\u00e9cnicas (como los 3 minutos del disco) moldean activamente la m\u00fasica."}, {"class": 1, "q": "\u00bfQu\u00e9 sostiene Mend\u00edvil sobre la relaci\u00f3n entre m\u00fasica y tecnolog\u00eda?", "options": ["Propone que la tecnolog\u00eda es intr\u00ednseca al fen\u00f3meno musical, afirmando que 'toda m\u00fasica es tecnol\u00f3gica' y que los instrumentos son herramientas de mediaci\u00f3n.", "Argumenta que los medios masivos son los \u00fanicos responsables de la tecnolog\u00eda, mientras que la m\u00fasica ac\u00fastica se mantiene como un fen\u00f3meno puramente 'natural' y sin mediaci\u00f3n."], "correct": 0, "rationale": "Para el autor, no existe m\u00fasica sin un grado de desarrollo tecnol\u00f3gico o mediaci\u00f3n discursiva."}, {"class": 1, "q": "Seg\u00fan Ospina Romero, \u00bfqu\u00e9 defin\u00eda a la fonograf\u00eda antes de 1925?", "options": ["Se basaba en un sistema de amplificaci\u00f3n electr\u00f3nica avanzada que permit\u00eda captar frecuencias extremas con total fidelidad desde sus inicios.", "Era un proceso de inscripci\u00f3n f\u00edsica y mec\u00e1nica del sonido; el autor define la fonograf\u00eda como 'la inscripci\u00f3n del sonido y la mediaci\u00f3n aural entre la producci\u00f3n y reproducci\u00f3n'."], "correct": 1, "rationale": "La era ac\u00fastica depend\u00eda de la fuerza f\u00edsica de las ondas sobre materiales como la cera o el aluminio."}, {"class": 1, "q": "\u00bfC\u00f3mo afect\u00f3 la aparici\u00f3n del micr\u00f3fono al estilo interpretativo seg\u00fan Byrne?", "options": ["Permiti\u00f3 captar matices suaves y susurros que antes se perd\u00edan, logrando que 'el micr\u00f3fono permiti\u00f3... el surgimiento del estilo crooner'.", "Oblig\u00f3 a los cantantes a forzar la voz para evitar que el ruido de fondo de las v\u00e1lvulas tapara la interpretaci\u00f3n vocal."], "correct": 0, "rationale": "La amplificaci\u00f3n el\u00e9ctrica cambi\u00f3 la t\u00e9cnica vocal del canto proyectado al canto \u00edntimo."}, {"class": 1, "q": "\u00bfQu\u00e9 rol desempe\u00f1aba el oyente frente a las limitaciones de las grabaciones ac\u00fasticas?", "options": ["El oyente ten\u00eda un rol pasivo, pues las grabaciones eran tan perfectas que no requer\u00edan esfuerzo interpretativo alguno.", "Deb\u00eda realizar un proceso mental activo para decodificar el sonido, ya que 'el oyente deb\u00eda realizar un esfuerzo para interpretar' lo que la t\u00e9cnica no llegaba a captar."], "correct": 1, "rationale": "La falta de fidelidad obligaba al cerebro a completar las frecuencias y timbres ausentes."}, {"class": 2, "q": "\u00bfPor qu\u00e9 las discogr\u00e1ficas argentinas priorizaban a ciertos artistas en los a\u00f1os 20?", "options": ["Buscaban prestigio social contratando a quienes eran presentados como 'prestigiosos y populares cultores del folk-lore' para legitimar el disco como objeto cultural.", "Prefer\u00edan artistas an\u00f3nimos para evitar el pago de regal\u00edas y as\u00ed maximizar la producci\u00f3n de las 'f\u00e1bricas de m\u00fasicas' con mano de obra barata."], "correct": 0, "rationale": "La industria necesitaba el aval de figuras consagradas para vender el reproductor y el disco."}, {"class": 2, "q": "\u00bfQu\u00e9 plantea Lahiteau sobre la 'autenticidad' en el uso de tecnolog\u00edas como el Auto-tune?", "options": ["Afirma que la tecnolog\u00eda destruye la honestidad del int\u00e9rprete, volviendo la m\u00fasica artificial e incapaz de transmitir sentimientos reales.", "Sostiene que lo que percibimos como verdadero es en realidad una elecci\u00f3n est\u00e9tica, pues 'la autenticidad es un estilo. Y es siempre el mismo estilo'."], "correct": 1, "rationale": "El autor cuestiona la idea de que lo 'puro' es m\u00e1s honesto que lo procesado tecnol\u00f3gicamente."}, {"class": 2, "q": "\u00bfCu\u00e1l era la estrategia de las empresas internacionales (Victor/Odeon) en Argentina?", "options": ["Compet\u00edan ferozmente por capturar el mercado local, protagonizando lo que Ca\u00f1ardo llama 'una guerra de tecnolog\u00eda y tango'.", "Ignoraban los g\u00e9neros locales para imponer la m\u00fasica cl\u00e1sica europea, que era considerada la \u00fanica 'cultura valiosa' por los directivos extranjeros."], "correct": 0, "rationale": "Las empresas se adaptaron al gusto local (tango/folclore) para dominar el mercado argentino."}, {"class": 2, "q": "Seg\u00fan Lahiteau, \u00bfpor qu\u00e9 la voz grabada suscita tanta irritaci\u00f3n cuando es modificada?", "options": ["Porque la voz se considera un reflejo directo del alma, donde 'la voz y c\u00f3mo es utilizada... se vuelve la medida de la honestidad de alguien'.", "Porque los algoritmos de afinaci\u00f3n son todav\u00eda muy rudimentarios y generan ruidos que da\u00f1an los sistemas de reproducci\u00f3n de alta fidelidad."], "correct": 0, "rationale": "Existe un juicio moral sobre la voz que no se aplica a otros instrumentos procesados."}, {"class": 2, "q": "\u00bfC\u00f3mo influy\u00f3 la industria discogr\u00e1fica en la construcci\u00f3n de la identidad nacional?", "options": ["Actu\u00f3 como un filtro que defini\u00f3 qu\u00e9 era lo nacional, seleccionando a los 'cultores del folk-lore' que deb\u00edan representar el sonido oficial del pa\u00eds.", "Foment\u00f3 la diversidad absoluta permitiendo que cualquier persona grabara sin importar su origen, evitando la creaci\u00f3n de c\u00e1nones o jerarqu\u00edas art\u00edsticas."], "correct": 0, "rationale": "La industria 'fabric\u00f3' un concepto de m\u00fasica nacional a trav\u00e9s de sus cat\u00e1logos selectivos."}, {"class": 3, "q": "\u00bfCu\u00e1l es la premisa de Russolo sobre la evoluci\u00f3n de la escucha?", "options": ["Sostiene que el ruido de las m\u00e1quinas ha saturado nuestra sensibilidad, oblig\u00e1ndonos a volver al silencio de la naturaleza.", "Argumenta que la vida industrial ha transformado nuestra percepci\u00f3n, pues 'el o\u00eddo moderno se ha acostumbrado a la complejidad del ruido'."], "correct": 1, "rationale": "El Futurismo buscaba que la m\u00fasica reflejara la nueva realidad sonora de la era de las m\u00e1quinas."}, {"class": 3, "q": "Seg\u00fan Fischerman, \u00bfqu\u00e9 propici\u00f3 el fin de la era tonal?", "options": ["Fue una consecuencia del 'agotamiento del sistema de jerarqu\u00edas de notas tradicionales', lo que forz\u00f3 la b\u00fasqueda de nuevos lenguajes.", "Se debi\u00f3 exclusivamente a la invenci\u00f3n del fon\u00f3grafo, que hizo que la gente dejara de interesarse por las partituras y la armon\u00eda cl\u00e1sica."], "correct": 0, "rationale": "La m\u00fasica del siglo XX rompe con la tonalidad porque las reglas anteriores ya no ofrec\u00edan posibilidades de innovaci\u00f3n."}, {"class": 3, "q": "\u00bfQu\u00e9 concepto desarrolla Ochoa Gautier sobre la grabaci\u00f3n?", "options": ["Explica que la reproducci\u00f3n sonora permiti\u00f3 separar el sonido de su origen, influyendo en c\u00f3mo 'la ciudad letrada se ha visto influenciada por la regi\u00f3n sonora'.", "Plantea que la tecnolog\u00eda ha servido para unificar todos los sonidos del mundo en una \u00fanica cultura global sin diferencias regionales."], "correct": 0, "rationale": "La autora analiza c\u00f3mo el sonido afecta la cultura, la pol\u00edtica y la percepci\u00f3n del espacio."}, {"class": 3, "q": "\u00bfC\u00f3mo organiz\u00f3 Russolo su propuesta para la m\u00fasica del futuro?", "options": ["A trav\u00e9s de una orquesta tradicional que imitaba sonidos de la naturaleza usando instrumentos de viento y percusi\u00f3n cl\u00e1sica.", "Mediante la creaci\u00f3n de m\u00e1quinas espec\u00edficas (Intonarumori) para 'extraer de la combinaci\u00f3n de los ruidos... el goce ac\u00fastico'."], "correct": 1, "rationale": "Russolo dise\u00f1\u00f3 instrumentos que pod\u00edan generar y controlar ruidos mec\u00e1nicamente."}, {"class": 3, "q": "Seg\u00fan Stubbs, \u00bfqu\u00e9 otros intereses ten\u00edan los futuristas adem\u00e1s de la tecnolog\u00eda?", "options": ["Se interesaban exclusivamente en el progreso material y la destrucci\u00f3n de cualquier forma de misticismo o espiritualidad.", "Pose\u00edan una faceta menos conocida, pues 'ten\u00edan una profunda afinidad con algunas ideas del ocultismo' y lo espiritual."], "correct": 1, "rationale": "M\u00e1s all\u00e1 de las m\u00e1quinas, el Futurismo exploraba dimensiones metaf\u00edsicas del sonido."}, {"class": 4, "q": "\u00bfQu\u00e9 es un 'Objeto Sonoro' para Pierre Schaeffer?", "options": ["Es el sonido percibido por s\u00ed mismo, cuando 'se desprende de su fuente original' para ser valorado por su timbre y forma.", "Es cualquier instrumento f\u00edsico, como un piano o un viol\u00edn, que sea utilizado dentro de un estudio de grabaci\u00f3n profesional."], "correct": 0, "rationale": "La m\u00fasica concreta busca que el oyente olvide qu\u00e9 produjo el sonido y se concentre en el sonido mismo."}, {"class": 4, "q": "\u00bfCu\u00e1l era la filosof\u00eda de la escuela de Colonia (M\u00fasica Electr\u00f3nica)?", "options": ["Buscaban la pureza absoluta y el control total, pues seg\u00fan Stubbs, 'quer\u00edan construir algo nuevo desde cero' mediante sonidos sint\u00e9ticos.", "Trataban de mejorar las grabaciones de la m\u00fasica concreta usando mejores micr\u00f3fonos para captar los ruidos del mundo real con m\u00e1s detalle."], "correct": 0, "rationale": "Los alemanes rechazaban el uso de sonidos 'sucios' del mundo real, prefiriendo osciladores electr\u00f3nicos."}, {"class": 4, "q": "\u00bfQu\u00e9 descubrimiento accidental marc\u00f3 a Schaeffer seg\u00fan Stubbs?", "options": ["La invenci\u00f3n del sintetizador digital, que le permiti\u00f3 abandonar las cintas magnetof\u00f3nicas de inmediato.", "La hipnosis producida por un disco rayado, 'quedando hipnotizado por el surco cerrado', el origen t\u00e9cnico del loop."], "correct": 1, "rationale": "El 'surco cerrado' permiti\u00f3 entender la repetici\u00f3n r\u00edtmica como una herramienta compositiva."}, {"class": 4, "q": "Seg\u00fan Stubbs, \u00bfc\u00f3mo era la relaci\u00f3n entre las escuelas de Par\u00eds y Colonia?", "options": ["Era una relaci\u00f3n de cooperaci\u00f3n total donde compart\u00edan todas sus t\u00e9cnicas y patentes tecnol\u00f3gicas sin secretos.", "Fue una disputa marcada por la 'recreaci\u00f3n de la tradicional enemistad franco-alemana' aplicada a la est\u00e9tica musical."], "correct": 1, "rationale": "Hab\u00eda una rivalidad ideol\u00f3gica profunda sobre si el sonido deb\u00eda ser natural o sint\u00e9tico."}, {"class": 4, "q": "\u00bfC\u00f3mo defin\u00eda Schaeffer el acto de tocar m\u00fasica concreta?", "options": ["Sosten\u00eda que 'no hay un instrumento para tocar musique concr\u00e8te', sino que el compositor debe operar sobre una m\u00e1quina compleja.", "Afirmaba que el tocadiscos era el nuevo viol\u00edn y que requer\u00eda la misma destreza f\u00edsica que un instrumento tradicional."], "correct": 0, "rationale": "La m\u00fasica concreta es un arte de estudio y montaje, no de interpretaci\u00f3n en vivo tradicional."}, {"class": 5, "q": "\u00bfQu\u00e9 buscaba el Serialismo Integral de Pierre Boulez?", "options": ["La libertad total del int\u00e9rprete para elegir las notas y el ritmo seg\u00fan su propia inspiraci\u00f3n moment\u00e1nea.", "El control absoluto de todos los par\u00e1metros del sonido para lograr 'la eliminaci\u00f3n de la subjetividad mediante el control total'."], "correct": 1, "rationale": "Boulez aplic\u00f3 la l\u00f3gica de las series de notas a las duraciones, intensidades y ataques."}, {"class": 5, "q": "Seg\u00fan Alex Ross, \u00bfqu\u00e9 rol jug\u00f3 la vanguardia en la Guerra Fr\u00eda?", "options": ["Fue promovida por Occidente 'como s\u00edmbolo de libertad intelectual' para demostrar superioridad cultural frente al bloque comunista.", "Fue perseguida en Europa Occidental por considerarse una m\u00fasica 'elitista' que alejaba al pueblo de los valores democr\u00e1ticos."], "correct": 0, "rationale": "La CIA y otras instituciones apoyaron el arte abstracto y complejo como propaganda de 'libertad'."}, {"class": 5, "q": "\u00bfQu\u00e9 significaba Darmstadt para la reconstrucci\u00f3n de Alemania?", "options": ["Un espacio para continuar la tradici\u00f3n rom\u00e1ntica de Wagner y Strauss, que era la base del orgullo nacional alem\u00e1n.", "Un lugar donde los j\u00f3venes compositores 'quer\u00edan borrar el pasado nazi' y empezar la m\u00fasica desde un punto cero absoluto."], "correct": 1, "rationale": "Se buscaba un lenguaje racional y cient\u00edfico para alejarse de la est\u00e9tica asociada al nazismo."}, {"class": 5, "q": "En el an\u00e1lisis de Brindle, \u00bfc\u00f3mo se serializaba la din\u00e1mica en Boulez?", "options": ["Se dejaba a libre elecci\u00f3n del pianista, siempre que se mantuviera dentro de un rango de volumen moderado.", "Se organizaba matem\u00e1ticamente; 'Boulez establece doce valores de intensidad asociados con la serie' num\u00e9rica de la obra."], "correct": 1, "rationale": "Incluso el volumen (intensidad) estaba predeterminado por el sistema serial."}, {"class": 5, "q": "\u00bfQu\u00e9 cita de P\u00e9guy utiliza Alex Ross para describir la deriva de las vanguardias?", "options": ["Sostiene que el arte debe ser puro y eterno, sin verse afectado por las corrientes de su tiempo.", "Afirma que los movimientos art\u00edsticos cambian de naturaleza: 'Todo comienza en m\u00edstica y acaba en pol\u00edtica'."], "correct": 1, "rationale": "Ross analiza c\u00f3mo las ideas est\u00e9ticas terminaron siendo parte de la lucha de poder geopol\u00edtica."}];
-    let currentClass = 1;
-    let currentIndex = 0;
+    const quizData = [
+        // NIVEL FÁCIL: Conceptos base
+        {
+            level: "easy",
+            q: "1. (Clase 1) ¿Cuál es el cambio fundamental que introdujo la tecnología de grabación según David Byrne?",
+            options: [
+                { text: "A) Permitió que la música dejara de ser un evento puramente efímero para convertirse en un objeto que se puede conservar.", correct: true },
+                { text: "B) Facilitó que los músicos pudieran tocar más rápido gracias a la edición digital de los años 20.", correct: false }
+            ],
+            feedback: "Antes de la grabación, la música solo existía en el aire y en el recuerdo del oyente.",
+            cite: "\"La música fue la principal metáfora poética de lo que no podía ser conservado\" (Walter Murch en Byrne, 2019)."
+        },
+        {
+            level: "easy",
+            q: "2. (Clase 2) ¿Qué caracterizó a la industria discográfica en Argentina entre 1919 y 1930?",
+            options: [
+                { text: "A) El paso de la venta de 'aparatos' fonográficos a la creación de un mercado de 'estrellas' e identidades nacionales.", correct: true },
+                { text: "B) La prohibición de grabar tangos para priorizar únicamente la música clásica europea.", correct: false }
+            ],
+            feedback: "La industria consolidó figuras populares como Gardel, transformando voces en identidades masivas.",
+            cite: "\"De las voces sin caras... a la consolidación de la industria discográfica en la Argentina\" (Cañardo, 2017)."
+        },
+        {
+            level: "easy",
+            q: "3. (Clase 1) ¿Qué limitaba la 'escucha acústica' antes de la aparición del micrófono en 1925?",
+            options: [
+                { text: "A) La dependencia de la energía física del sonido para mover mecánicamente la aguja sobre el soporte.", correct: true },
+                { text: "B) La falta de electricidad en los hogares, que impedía que los discos giraran a la velocidad correcta.", correct: false }
+            ],
+            feedback: "En la era acústica, los cantantes debían proyectar su voz directamente hacia un pabellón mecánico.",
+            cite: "\"La fonografía se refiere a la inscripción del sonido y la mediación aural\" (Ospina Romero, 2024)."
+        },
 
-    function changeClass(num) {
-        currentClass = num;
-        currentIndex = 0;
-        document.querySelectorAll('.nav-menu button').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-' + num).classList.add('active');
-        render();
-    }
+        // NIVEL MEDIO: Estética y Técnicas
+        {
+            level: "medium",
+            q: "4. (Clase 3) ¿Qué proponía Russolo en su Manifiesto Futurista para renovar la música?",
+            options: [
+                { text: "A) Sustituir la orquesta tradicional por una 'orquesta de ruidos' que reflejara la vida moderna e industrial.", correct: true },
+                { text: "B) Volver al silencio absoluto de la naturaleza para evitar la contaminación sonora de las ciudades.", correct: false }
+            ],
+            feedback: "Russolo clasificó los ruidos en seis familias para expandir el vocabulario musical.",
+            cite: "\"Debemos romper este círculo restringido de sonidos puros y conquistar la variedad infinita de los sonidos-ruidos\" (Russolo, 1913)."
+        },
+        {
+            level: "medium",
+            q: "5. (Clase 3) ¿A qué se refiere Ana María Ochoa Gautier con el 'largo siglo XX'?",
+            options: [
+                { text: "A) Al periodo de hegemonía de la escucha mediada por máquinas que comienza con la invención del fonógrafo en 1877.", correct: true },
+                { text: "B) A un siglo que parece más largo debido a la gran cantidad de obras musicales compuestas.", correct: false }
+            ],
+            feedback: "Propone que nuestra cultura está definida por el modo en que las máquinas han capturado y reproducido el sonido.",
+            cite: "\"Tal vez acallando el ruido de la mirada logremos escuchar este largo siglo XX\" (Ochoa Gautier, 2006)."
+        },
+        {
+            level: "medium",
+            q: "6. (Clase 4) ¿Cuál fue el hallazgo accidental de Pierre Schaeffer que dio origen al 'arte de las tijeras'?",
+            options: [
+                { text: "A) El surco cerrado de un disco rayado, que permitía la repetición infinita de un fragmento sonoro.", correct: true },
+                { text: "B) La invención de la cinta magnética mientras intentaba reparar un tocadiscos roto.", correct: false }
+            ],
+            feedback: "Este accidente permitió aislar el sonido de su contexto y convertirlo en un material maleable.",
+            cite: "\"El surco cerrado le permitió a Schaeffer vislumbrar un nuevo modo de crear u obtener música\" (Stubbs, 2019)."
+        },
+
+        // PREGUNTA DEL PROFESOR
+        {
+            level: "medium",
+            q: "7. (PREGUNTA DEL PROFESOR) Explique qué fue la música concreta, sus técnicas y diferencias/similitudes con la música electrónica.",
+            options: [
+                { text: "A) La Concreta (París) usa sonidos de la realidad manipulados; la Electrónica (Colonia) usa sonidos sintéticos generados por osciladores. Ambas usan el estudio como instrumento.", correct: true },
+                { text: "B) La Concreta usa instrumentos de orquesta afinados; la Electrónica usa ruidos de la calle sin procesar. La diferencia es el uso del ritmo.", correct: false }
+            ],
+            feedback: "Ambas escuelas liberaron al sonido de su función tradicional, pero partían de fuentes opuestas (realidad vs. síntesis).",
+            cite: "\"Rechazó la musique concrète... ¿quién querría tener algo que ver con la sustancia de este mundo caído?\" (Stockhausen en Stubbs, 2019)."
+        },
+
+        // NIVEL COMPLEJO: Teoría Crítica e Integración
+        {
+            level: "complex",
+            q: "8. (Clase 5) ¿Cómo influyó la Guerra Fría en la música de vanguardia según Alex Ross?",
+            options: [
+                { text: "A) La vanguardia radical fue apoyada institucionalmente como un símbolo de libertad creativa frente al realismo socialista soviético.", correct: true },
+                { text: "B) El conflicto obligó a los músicos a componer solo obras patrióticas para evitar ser perseguidos por el Estado.", correct: false }
+            ],
+            feedback: "Las instituciones occidentales financiaron el modernismo para demostrar superioridad cultural e intelectual.",
+            cite: "\"Ideas grandiosas... acaban siendo pasto para una lucha de poder entre ideólogos y pedantes\" (Ross, 2009)."
+        },
+        {
+            level: "complex",
+            q: "9. (Clase 5) ¿Qué buscaba el Serialismo Integral de posguerra?",
+            options: [
+                { text: "A) Aplicar la lógica de la serie no solo a las notas, sino también a la intensidad, duración y el ataque del sonido.", correct: true },
+                { text: "B) Crear una música que fuera fácil de cantar para que las masas pudieran integrarse a la nueva sociedad.", correct: false }
+            ],
+            feedback: "Fue el intento de lograr un control total y racional sobre cada aspecto de la composición.",
+            cite: "\"Boulez establece doce valores de intensidad asociados con la serie numérica\" (Brindle, 1996)."
+        },
+        {
+            level: "complex",
+            q: "10. (Clase 1) ¿Qué es el 'carácter fetichista' de la música para Adorno?",
+            options: [
+                { text: "A) El hecho de que el oyente valora el éxito comercial o la técnica virtuosa de un artista por encima del valor artístico de la obra.", correct: true },
+                { text: "B) La obsesión de los músicos por coleccionar instrumentos antiguos y raros.", correct: false }
+            ],
+            feedback: "Para Adorno, la industria cultural transforma la música en una mercancía que provoca una escucha pasiva.",
+            cite: "\"Adorno analizó el papel de la radio en la formación del gusto pop al vincularla con determinantes sociales\" (Mendívil, 2016)."
+        },
+        {
+            level: "complex",
+            q: "11. (Clase 2) ¿Por qué el Auto-Tune genera irritación en ciertos sectores según Lahiteau?",
+            options: [
+                { text: "A) Porque rompe el pacto de 'honestidad' que asocia la voz humana natural con la verdad del artista.", correct: true },
+                { text: "B) Porque es una tecnología muy cara que solo los artistas ricos pueden pagar.", correct: false }
+            ],
+            feedback: "La voz es vista como el último refugio de lo humano; alterarla se percibe como un engaño ético.",
+            cite: "\"La voz se vuelve la medida de la honestidad de alguien... usar Auto-Tune es hacer trampa\" (Lahiteau, 2020)."
+        },
+        {
+            level: "complex",
+            q: "12. (Clase 3) ¿Qué define al 'objeto sonoro' en la música contemporánea según Fischerman?",
+            options: [
+                { text: "A) El sonido considerado en sí mismo, libre de sus relaciones tradicionales con la armonía o la melodía.", correct: true },
+                { text: "B) Cualquier objeto físico que se pueda golpear para hacer ruido en el escenario.", correct: false }
+            ],
+            feedback: "Se trata de una poética donde el material sonoro es el protagonista absoluto del discurso.",
+            cite: "\"Se abre un camino: el de una poética del sonido en sí mismo, entendido como objeto independiente\" (Fischerman, 2011)."
+        },
+        {
+            level: "complex",
+            q: "13. (Clase 4) ¿Cuál era la principal crítica de la escuela de Colonia hacia la música de Pierre Schaeffer?",
+            options: [
+                { text: "A) Que la música concreta estaba 'contaminada' por los escombros de la realidad, en lugar de ser puramente abstracta.", correct: true },
+                { text: "B) Que la música concreta era demasiado difícil de grabar porque requería micrófonos muy costosos.", correct: false }
+            ],
+            feedback: "Eimert y Stockhausen buscaban una 'limpieza' sonora total mediante la síntesis electrónica.",
+            cite: "\"¿Quién querría tener algo que ver con la sustancia de este mundo caído?\" (Stubbs, 2019)."
+        },
+        {
+            level: "complex",
+            q: "14. (Clase 1) ¿Qué relación establece Mendívil entre los medios y el discurso sobre la música?",
+            options: [
+                { text: "A) Que los medios no solo difunden música, sino que construyen estrategias discursivas para que el público la consuma de forma coherente.", correct: true },
+                { text: "B) Que los medios son espejos perfectos que reflejan la realidad musical sin alterarla.", correct: false }
+            ],
+            feedback: "Siguiendo a Foucault, Mendívil explica cómo se fundan formas de describir y valorar el arte.",
+            cite: "\"Los discursos no deben ser entendidos como nominación de fenómenos observables, sino como estrategias para describirlos\" (Mendívil, 2016)."
+        },
+        {
+            level: "complex",
+            q: "15. (Clase 5) ¿Cuál es la conclusión de Brindle sobre el futuro de la música?",
+            options: [
+                { text: "A) Que estará más ligado al desarrollo tecnológico que a nuevas teorías radicales de composición.", correct: true },
+                { text: "B) Que la música dejará de existir para ser reemplazada por el teatro puro sin sonido.", correct: false }
+            ],
+            feedback: "Brindle observa que la tecnología ha superado a la teoría en su capacidad de transformar la música.",
+            cite: "\"Estará más asociado al cambio y desarrollo tecnológico que a transformaciones radicales en las técnicas de composición\" (Brindle, 1996)."
+        }
+    ];
+
+    const root = document.getElementById('quiz-root');
 
     function render() {
-        const filtered = data.filter(q => q.class === currentClass);
-        const q = filtered[currentIndex];
-        const content = document.getElementById('quiz-content');
-        
-        content.innerHTML = `
-            <div class="question-box">
-                <div class="question-text">${q.q}</div>
-                <button class="option-btn" onclick="check(0, ${q.correct}, '${q.rationale.replace(/'/g, "\'")}')">${q.options[0]}</button>
-                <button class="option-btn" onclick="check(1, ${q.correct}, '${q.rationale.replace(/'/g, "\'")}')">${q.options[1]}</button>
-                <div class="feedback" id="fb"></div>
-            </div>
-        `;
-        
-        document.getElementById('progress-text').innerText = `Pregunta ${currentIndex + 1} de ${filtered.length}`;
-        document.getElementById('prev-btn').disabled = currentIndex === 0;
-        document.getElementById('next-btn').disabled = currentIndex === filtered.length - 1;
+        quizData.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'question-block';
+            div.innerHTML = `
+                <div class="level-tag ${item.level}">${item.level === 'easy' ? 'Fácil' : item.level === 'medium' ? 'Intermedio' : 'Complejo'}</div>
+                <span class="question-text">${item.q}</span>
+                ${item.options.map(opt => `
+                    <button class="option" onclick="evalu(this, ${opt.correct}, ${idx})">${opt.text}</button>
+                `).join('')}
+                <div class="feedback" id="f-${idx}">
+                    ${item.feedback}
+                    <span class="cite">${item.cite}</span>
+                </div>
+            `;
+            root.appendChild(div);
+        });
     }
 
-    function check(selected, correct, rationale) {
-        const btns = document.querySelectorAll('.option-btn');
-        btns.forEach(b => b.disabled = true);
+    window.evalu = (btn, isCorrect, idx) => {
+        const parent = btn.parentElement;
+        const options = parent.querySelectorAll('.option');
+        const feed = document.getElementById(`f-${idx}`);
         
-        if (selected === correct) {
-            btns[selected].classList.add('correct');
+        options.forEach(o => o.style.pointerEvents = 'none');
+        
+        if(isCorrect) {
+            btn.classList.add('correct');
         } else {
-            btns[selected].classList.add('incorrect');
-            btns[correct].classList.add('correct');
+            btn.classList.add('incorrect');
+            options.forEach(o => { if(o.innerText.startsWith('A)')) o.classList.add('correct'); });
         }
-        
-        const fb = document.getElementById('fb');
-        fb.innerHTML = `<strong>Explicación:</strong> ${rationale}`;
-        fb.style.display = 'block';
+        feed.style.display = 'block';
     }
 
-    function moveQuestion(step) {
-        currentIndex += step;
-        render();
-    }
-
-    changeClass(1);
+    render();
 </script>
 
 </body>
