@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Acumulativo - Música y Tecnología</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --primary: #3b82f6;
+            --secondary: #64748b;
+            --accent: #10b981;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .class-section {
+            margin-bottom: 50px;
+        }
+
+        .class-title {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .difficulty {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            color: var(--secondary);
+        }
+
+        .prof-badge {
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: bold;
+            border: 1px solid #f59e0b;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .btn-opt {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-opt:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .btn-opt.correct {
+            background-color: #d1fae5;
+            border-color: var(--accent);
+            color: #065f46;
+        }
+
+        .btn-opt.incorrect {
+            background-color: #fee2e2;
+            border-color: var(--error);
+            color: #991b1b;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .quote {
+            display: block;
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Cuestionario Integral: Música y Tecnología</h1>
+        <p>5 Clases | 25 Preguntas | Nivel Progresivo</p>
+    </header>
+
+    <div id="quiz-container">
+        </div>
+
+    <footer>
+        Luca - Tecnicatura en Creación Musical (UNQ)
+    </footer>
+</div>
+
+<script>
+    const quizData = [
+        {
+            title: "Clase 1: Música y Tecnología",
+            questions: [
+                {
+                    q: "¿Cuál fue el cambio más drástico de la grabación según David Byrne?",
+                    difficulty: "Breve",
+                    options: ["La música dejó de ser efímera para ser un objeto conservado.", "Los músicos empezaron a ganar más dinero por derechos de autor."],
+                    correct: 0,
+                    quote: '"La música fue la principal metáfora poética de lo que no podía ser conservado"'
+                },
+                {
+                    q: "¿Qué definía a la 'escucha acústica' previa a 1925?",
+                    difficulty: "Simple",
+                    options: ["La captura por micrófonos y electricidad.", "La inscripción mecánica por la energía directa del sonido."],
+                    correct: 1,
+                    quote: '"La fonografía se refiere a la inscripción del sonido y la mediación aural"'
+                },
+                {
+                    q: "Según Mendívil, ¿cuál es la función de los discursos de los medios?",
+                    difficulty: "Medio",
+                    options: ["Generar estrategias para que la música sea recibida como coherente.", "Informar objetivamente sobre la calidad técnica de los discos."],
+                    correct: 0,
+                    quote: '"Los discursos son estrategias para describirlos mediante enunciados coherentes"'
+                },
+                {
+                    q: "¿Qué implica la 'regresión de la escucha' en Adorno?",
+                    difficulty: "Complejo",
+                    options: ["Una escucha pasiva que solo busca el reconocimiento de lo ya conocido.", "Un avance en la capacidad auditiva gracias a la alta fidelidad."],
+                    correct: 0,
+                    quote: '"Adorno analizó el papel de la radio en la formación del gusto pop"'
+                },
+                {
+                    q: "¿De qué manera la tecnología da forma a la música según el texto?",
+                    difficulty: "Explayado",
+                    options: ["Modificando la naturaleza de lo que se crea al cambiar cómo se escucha.", "Permitiendo que los instrumentos suenen exactamente igual que en vivo."],
+                    correct: 0,
+                    quote: '"La tecnología de grabación cambió nuestra manera de escuchar y lo que se crea"'
+                }
+            ]
+        },
+        {
+            title: "Clase 2: Surgimiento de la Música Popular",
+            questions: [
+                {
+                    q: "¿Cómo cambió la venta de música en Argentina en los años 20?",
+                    difficulty: "Breve",
+                    options: ["Se pasó de vender 'máquinas' a vender 'estrellas' (como Gardel).", "Se prohibió la importación de fonógrafos extranjeros."],
+                    correct: 0,
+                    quote: '"De las voces sin caras... a la consolidación de la industria"'
+                },
+                {
+                    q: "¿Por qué el Auto-Tune genera irritación según Lahiteau?",
+                    difficulty: "Simple",
+                    options: ["Porque rompe la asociación entre voz natural y honestidad del artista.", "Porque es un efecto que satura las frecuencias medias de la mezcla."],
+                    correct: 0,
+                    quote: '"La voz se vuelve la medida de la honestidad de alguien"'
+                },
+                {
+                    q: "¿Qué rol tuvo Max Glücksmann en la industria local?",
+                    difficulty: "Medio",
+                    options: ["Fue el creador de la primera fábrica de discos en Argentina (Odeon).", "Fue un músico de tango que se negó a grabar discos por ética."],
+                    correct: 0,
+                    quote: '"Max Glücksmann, Odeon y la primera fábrica de discos en la Argentina"'
+                },
+                {
+                    q: "¿Qué significa que la autenticidad sea 'un estilo'?",
+                    difficulty: "Complejo",
+                    options: ["Que lo 'natural' es una construcción estética que también se produce.", "Que solo los músicos que no usan tecnología son auténticos."],
+                    correct: 0,
+                    quote: '"La autenticidad es un estilo. Y es siempre el mismo estilo"'
+                },
+                {
+                    q: "Relación entre Gardel y la técnica de grabación acústica:",
+                    difficulty: "Explayado",
+                    options: ["Su caudal y dicción permitieron que su voz se impusiera en los registros primitivos.", "Sus discos fallaban porque su voz era demasiado aguda para las máquinas."],
+                    correct: 0,
+                    quote: '"Me cautivó esa interpretación tersa de Gardel... la dicción florida"'
+                }
+            ]
+        },
+        {
+            title: "Clase 3: Vanguardias y Ruido",
+            questions: [
+                {
+                    q: "¿Qué buscaba Luigi Russolo con su manifiesto?",
+                    difficulty: "Breve",
+                    options: ["Conquistar la variedad infinita de los sonidos-ruidos.", "Regresar a la pureza del silencio absoluto en la música."],
+                    correct: 0,
+                    quote: '"Debemos romper este círculo restringido de sonidos puros"'
+                },
+                {
+                    q: "¿Qué marca el inicio del 'largo siglo XX' para Ochoa Gautier?",
+                    difficulty: "Simple",
+                    options: ["La invención del fonógrafo en 1877.", "El inicio de la Primera Guerra Mundial en 1914."],
+                    correct: 0,
+                    quote: '"Ese que empezó con la invención del fonógrafo en 1877"'
+                },
+                {
+                    q: "¿Qué es un 'objeto sonoro' para Fischerman?",
+                    difficulty: "Medio",
+                    options: ["El sonido entendido como ente independiente de relaciones funcionales.", "Cualquier instrumento físico que se pueda ver en un escenario."],
+                    correct: 0,
+                    quote: '"Una poética del sonido en sí mismo"'
+                },
+                {
+                    q: "¿Cómo se organiza la orquesta futurista?",
+                    difficulty: "Complejo",
+                    options: ["Mediante seis familias de ruidos fundamentales.", "Siguiendo la estructura de cuerdas, vientos y percusión."],
+                    correct: 0,
+                    quote: '"A continuación, las seis familias de ruidos de la orquesta futurista"'
+                },
+                {
+                    q: "¿Qué propone la frase 'acallar el ruido de la mirada'?",
+                    difficulty: "Explayado",
+                    options: ["Desplazar la primacía de lo visual para priorizar la escucha en la historia.", "Cerrar los ojos para que los otros sentidos se agudicen automáticamente."],
+                    correct: 0,
+                    quote: '"Tal vez acallando el ruido de la mirada logremos escuchar este siglo"'
+                }
+            ]
+        },
+        {
+            title: "Clase 4: Posguerra I (Concretos y Electrónicos)",
+            questions: [
+                {
+                    q: "¿Qué técnica nace del accidente del disco rayado de Schaeffer?",
+                    difficulty: "Breve",
+                    options: ["El surco cerrado (loop).", "La reverberación por placas."],
+                    correct: 0,
+                    quote: '"El surco cerrado le permitió vislumbrar un nuevo modo de crear"'
+                },
+                {
+                    q: "¿Cuál es la materia prima de la Música Electrónica (Colonia)?",
+                    difficulty: "Simple",
+                    options: ["Sonidos generados por osciladores (electrónicos).", "Sonidos grabados de la naturaleza (concretos)."],
+                    correct: 0,
+                    quote: '"Colonia trabajaba con osciladores... Schaeffer con lo grabado"'
+                },
+                {
+                    q: "PREGUNTA DEL PROFESOR: Diferencia/Similitud entre Concreta y Electrónica.",
+                    difficulty: "Medio",
+                    options: ["Similitud: uso del estudio como instrumento. Diferencia: origen del sonido (real vs sintético).", "Similitud: ambas usan partituras tradicionales. Diferencia: una es francesa y la otra rusa."],
+                    correct: 0,
+                    isProfessor: true,
+                    quote: '"¿Quién querría tener algo que ver con los escombros de este mundo?"'
+                },
+                {
+                    q: "¿Qué significa 'aislar' el sonido para los concretos?",
+                    difficulty: "Complejo",
+                    options: ["Liberar al sonido de su contexto funcional original.", "Poner paneles acústicos para que no entre ruido de afuera."],
+                    correct: 0,
+                    quote: '"El efecto del sonido liberado de su contexto funcional original"'
+                },
+                {
+                    q: "¿Cómo era la relación entre las escuelas de París y Colonia?",
+                    difficulty: "Explayado",
+                    options: ["De rivalidad ideológica (realismo vs pureza electrónica).", "De colaboración total y giras mundiales conjuntas."],
+                    correct: 0,
+                    quote: '"Schaeffer enfrentó la rivalidad ideológica de una escuela diferente"'
+                }
+            ]
+        },
+        {
+            title: "Clase 5: Posguerra II (Límites y Política)",
+            questions: [
+                {
+                    q: "¿Qué factor externo impulsó la vanguardia en los 50?",
+                    difficulty: "Breve",
+                    options: ["La financiación política durante la Guerra Fría.", "El aumento de ventas de discos de vinilo de 45 RPM."],
+                    correct: 0,
+                    quote: '"Ideas grandiosas... acaban siendo pasto para una lucha de poder"'
+                },
+                {
+                    q: "¿Qué intentaba controlar el Serialismo Integral?",
+                    difficulty: "Simple",
+                    options: ["Todos los parámetros: altura, duración, intensidad y ataque.", "Solo el orden de las 12 notas de la escala cromática."],
+                    correct: 0,
+                    quote: '"Boulez establece doce valores de intensidad asociados con la serie"'
+                },
+                {
+                    q: "Según Brindle, ¿de qué depende el futuro de la música?",
+                    difficulty: "Medio",
+                    options: ["Del cambio y desarrollo tecnológico más que de nuevas teorías.", "Del regreso a las formas clásicas de Beethoven y Mozart."],
+                    correct: 0,
+                    quote: '"Estará más asociado al cambio tecnológico que a transformaciones radicales"'
+                },
+                {
+                    q: "¿Qué crítica hace Morton Feldman a las 'ideas'?",
+                    difficulty: "Complejo",
+                    options: ["Que se convierten en el 'opio' del artista y le quitan libertad.", "Que son muy difíciles de anotar en papel pentagramado."],
+                    correct: 0,
+                    quote: '"Desgraciadamente... las ideas se convierten en su opio"'
+                },
+                {
+                    q: "¿Qué representó Pierre Boulez en esta época?",
+                    difficulty: "Explayado",
+                    options: ["La búsqueda del control racional absoluto de la composición.", "La defensa de la música popular y el rock and roll francés."],
+                    correct: 0,
+                    quote: '"Boulez establece doce valores de intensidad... comprende 14 secciones"'
+                }
+            ]
+        }
+    ];
+
+    function initQuiz() {
+        const container = document.getElementById('quiz-container');
+        
+        quizData.forEach((section, sIdx) => {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'class-section';
+            sectionDiv.innerHTML = `<h2 class="class-title">${section.title}</h2>`;
+
+            section.questions.forEach((q, qIdx) => {
+                const card = document.createElement('div');
+                card.className = 'q-card';
+                card.innerHTML = `
+                    <div class="q-header">
+                        <span class="difficulty">${q.difficulty}</span>
+                        ${q.isProfessor ? '<span class="difficulty prof-badge">PREGUNTA DEL PROFESOR</span>' : ''}
+                    </div>
+                    <span class="question-text">${q.q}</span>
+                    <div class="options">
+                        ${q.options.map((opt, oIdx) => `
+                            <button class="btn-opt" onclick="check(this, ${sIdx}, ${qIdx}, ${oIdx})">${opt}</button>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="f-${sIdx}-${qIdx}">
+                        <strong>¡Correcto!</strong>
+                        <span class="quote">${q.quote}</span>
+                    </div>
+                `;
+                sectionDiv.appendChild(card);
+            });
+            container.appendChild(sectionDiv);
+        });
+    }
+
+    window.check = (btn, sIdx, qIdx, oIdx) => {
+        const question = quizData[sIdx].questions[qIdx];
+        const buttons = btn.parentElement.querySelectorAll('.btn-opt');
+        const feedback = document.getElementById(`f-${sIdx}-${qIdx}`);
+
+        buttons.forEach(b => b.disabled = true);
+
+        if (oIdx === question.correct) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('incorrect');
+            buttons[question.correct].classList.add('correct');
+            feedback.querySelector('strong').innerText = 'Respuesta correcta:';
+        }
+        feedback.style.display = 'block';
+    }
+
+    initQuiz();
+</script>
+
+</body>
+</html>
